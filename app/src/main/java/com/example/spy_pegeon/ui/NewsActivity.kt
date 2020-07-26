@@ -1,11 +1,12 @@
-package com.example.spy_pegeon
+package com.example.spy_pegeon.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.spy_pegeon.R
 
-class MainActivity : AppCompatActivity() {
+class NewsActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_news)
     }
 }
