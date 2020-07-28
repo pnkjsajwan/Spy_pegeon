@@ -1,4 +1,4 @@
-package com.example.spy_pegeon
+package com.example.spy_pegeon.models
 
 data class Source(
     val id: Any,

@@ -1,6 +1,6 @@
-package com.example.spy_pegeon
+package com.example.spy_pegeon.models
 
-import com.example.spy_pegeon.Article
+import com.example.spy_pegeon.models.Article
 
 data class NewsResponse(
     val articles: List<Article>,

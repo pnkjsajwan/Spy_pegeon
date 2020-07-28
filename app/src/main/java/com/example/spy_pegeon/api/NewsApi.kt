@@ -1,6 +1,6 @@
 package com.example.spy_pegeon.api
 
-import com.example.spy_pegeon.NewsResponse
+import com.example.spy_pegeon.models.NewsResponse
 import com.example.spy_pegeon.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET

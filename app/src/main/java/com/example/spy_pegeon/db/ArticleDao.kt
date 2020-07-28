@@ -2,7 +2,7 @@ package com.example.spy_pegeon.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.spy_pegeon.Article
+import com.example.spy_pegeon.models.Article
 
 @Dao
 interface ArticleDao {

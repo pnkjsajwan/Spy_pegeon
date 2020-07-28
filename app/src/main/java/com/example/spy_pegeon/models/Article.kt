@@ -1,4 +1,4 @@
-package com.example.spy_pegeon
+package com.example.spy_pegeon.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
