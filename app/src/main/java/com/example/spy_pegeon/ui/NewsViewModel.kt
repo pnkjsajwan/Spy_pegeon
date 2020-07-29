@@ -17,6 +17,10 @@ class NewsViewModel(
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage = 1
 
+    init {
+        getBreakingNews("in")
+    }
+
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         breakingNews.postValue(Loading())
         val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
@@ -29,6 +33,6 @@ class NewsViewModel(
                 return Resource.Success(resultResponse)
             }
         }
-        return null //Resource.Error(response.message()) does not work here dont no why man
+        return Resource.Error(response.message())
     }
 }
