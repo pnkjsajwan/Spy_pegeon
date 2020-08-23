@@ -3,6 +3,7 @@ package com.example.spy_pegeon.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.spy_pegeon.models.Article
 import com.example.spy_pegeon.models.NewsResponse
 import com.example.spy_pegeon.repository.NewsRepository
 import com.example.spy_pegeon.util.Resource
@@ -52,5 +53,15 @@ class NewsViewModel(
             }
         }
         return Resource.Error(response.message())
+    }
+
+    fun savedArticle(article: Article) = viewModelScope.launch {
+        newsRepository.upsert(article)
+    }
+
+    fun getSavedNews() = newsRepository.getSavedNews()
+
+    fun deleteArticle(article: Article)= viewModelScope.launch {
+        newsRepository.deleteArticle(article)
     }
 }
