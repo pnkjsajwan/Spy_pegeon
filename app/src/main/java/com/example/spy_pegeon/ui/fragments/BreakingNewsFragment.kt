@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.spy_pegeon.R
 import com.example.spy_pegeon.adapters.NewsAdapters
 import com.example.spy_pegeon.ui.NewsActivity
@@ -65,6 +66,23 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     private fun showProgressBar() {
         paginationProgressBar.visibility = View.VISIBLE
     }
+
+
+    var isLoading = false
+    var isLastPage = false
+    var isScolling = false
+
+    val scrollListener = object : RecyclerView.OnScrollListener(){
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+        }
+    }
+
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapters()
