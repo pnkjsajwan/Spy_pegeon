@@ -45,7 +45,9 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.articles)
+                        newsAdapter.differ.submitList(newsResponse.articles.toList())
+                        val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
+                        isLastPage = viewModel.breakingNewsPage == totalPages
                     }
                 }
                 is Resource.Error -> {
@@ -63,10 +65,12 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
     private fun hideProgressBar() {
         paginationProgressBar.visibility = View.INVISIBLE
+        isLoading = false
     }
 
     private fun showProgressBar() {
         paginationProgressBar.visibility = View.VISIBLE
+        isLoading = true
     }
 
 

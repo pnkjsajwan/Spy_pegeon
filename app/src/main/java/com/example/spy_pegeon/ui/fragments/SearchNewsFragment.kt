@@ -3,15 +3,18 @@ package com.example.spy_pegeon.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AbsListView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.spy_pegeon.R
 import com.example.spy_pegeon.adapters.NewsAdapters
 import com.example.spy_pegeon.ui.NewsActivity
 import com.example.spy_pegeon.ui.NewsViewModel
+import com.example.spy_pegeon.util.Constants
 import com.example.spy_pegeon.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.example.spy_pegeon.util.Resource
 import kotlinx.android.synthetic.main.fragment_search_news.*
@@ -86,12 +89,48 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
         paginationProgressBar.visibility = View.VISIBLE
     }
 
+
+    var isLoading = false
+    var isLastPage = false
+    var isScolling = false
+
+    val scrollListener = object : RecyclerView.OnScrollListener(){
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val shouldPaginate = isNotLoadingAndNotLastPage && isNotAtBeginning && isAtLastItem &&
+                    isTotalMoreThanVisible && isScolling
+            if (shouldPaginate){
+                viewModel.searchNews(etSearch.text.toString())
+                isScolling = false
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+                isScolling = true
+            }
+        }
+    }
+
+
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapters()
 
         rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@SearchNewsFragment.scrollListener)
         }
     }
 }
